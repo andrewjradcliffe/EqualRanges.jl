@@ -1,5 +1,7 @@
 module EqualRanges
 
-# Write your package code here.
+export mthpair, mthrange, equalpairs, equalranges
+
+include("equalranges.jl")
 
 end

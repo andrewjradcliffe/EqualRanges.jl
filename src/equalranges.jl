@@ -183,7 +183,7 @@ julia> equalranges(q, r, M)
 function equalranges(q::Int, r::Int, M::Int)
     ps = Vector{UnitRange{Int}}(undef, M)
     qp1 = q + 1
-    # u = qp1
+    ## u = qp1
     u = r > 0 ? qp1 : q
     l = 1
     ps[1] = l:u

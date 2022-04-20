@@ -124,28 +124,29 @@ julia> equalpairs(q, r, M)
  (20, 22)
 ```
 """
-function equalpairs(q::Int, r::Int, M::Int)
-    ps = Vector{Tuple{Int,Int}}(undef, M)
-    qp1 = q + 1
-    # u = qp1
-    u = r > 0 ? qp1 : q
-    l = 1
-    ps[1] = (l, u)
-    m = 2
-    while m ≤ M
-        if m ≤ r
-            u += qp1
-            l = u - q
-            ps[m] = (l, u)
-        elseif r < m ≤ M
-            u += q
-            l = u - q + 1
-            ps[m] = (l, u)
-        end
-        m += 1
-    end
-    return ps
-end
+equalpairs(q::Int, r::Int, M::Int) = equalpairs(1, q, r, M)
+# function equalpairs(q::Int, r::Int, M::Int)
+#     ps = Vector{Tuple{Int,Int}}(undef, M)
+#     qp1 = q + 1
+#     # u = qp1
+#     u = r > 0 ? qp1 : q
+#     l = 1
+#     ps[1] = (l, u)
+#     m = 2
+#     while m ≤ M
+#         if m ≤ r
+#             u += qp1
+#             l = u - q
+#             ps[m] = (l, u)
+#         elseif r < m ≤ M
+#             u += q
+#             l = u - q + 1
+#             ps[m] = (l, u)
+#         end
+#         m += 1
+#     end
+#     return ps
+# end
 
 """
     equalpairs(N::Int, M::Int)
@@ -228,28 +229,29 @@ julia> equalranges(q, r, M)
  20:22
 ```
 """
-function equalranges(q::Int, r::Int, M::Int)
-    ps = Vector{UnitRange{Int}}(undef, M)
-    qp1 = q + 1
-    ## u = qp1
-    u = r > 0 ? qp1 : q
-    l = 1
-    ps[1] = l:u
-    m = 2
-    while m ≤ M
-        if m ≤ r
-            u += qp1
-            l = u - q
-            ps[m] = l:u
-        elseif r < m ≤ M
-            u += q
-            l = u - q + 1
-            ps[m] = l:u
-        end
-        m += 1
-    end
-    return ps
-end
+equalranges(q::Int, r::Int, M::Int) = equalranges(1, q, r, M)
+# function equalranges(q::Int, r::Int, M::Int)
+#     ps = Vector{UnitRange{Int}}(undef, M)
+#     qp1 = q + 1
+#     ## u = qp1
+#     u = r > 0 ? qp1 : q
+#     l = 1
+#     ps[1] = l:u
+#     m = 2
+#     while m ≤ M
+#         if m ≤ r
+#             u += qp1
+#             l = u - q
+#             ps[m] = l:u
+#         elseif r < m ≤ M
+#             u += q
+#             l = u - q + 1
+#             ps[m] = l:u
+#         end
+#         m += 1
+#     end
+#     return ps
+# end
 
 """
     equalranges(N::Int, M::Int)

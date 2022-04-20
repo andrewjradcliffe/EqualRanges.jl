@@ -142,7 +142,7 @@ function equalpairs(q::Int, r::Int, M::Int)
             l = u - q + 1
             ps[m] = (l, u)
         end
-        m +=1
+        m += 1
     end
     return ps
 end
@@ -154,8 +154,56 @@ Return the `M` pairs of (lower, upper) bounds which divide a length `N` into `M`
 where the remainder (if it is nonzero) is equally distributed across the parts.
 """
 function equalpairs(N::Int, M::Int)
-    q, r = divrem(N, M)
-    equalpairs(q, r, M)
+    if M ≥ N
+        return equalpairs(1, 0, N)
+    else
+        q, r = divrem(N, M)
+        return equalpairs(q, r, M)
+    end
+end
+
+"""
+    equalpairs(start::Int, q::Int, r::Int, M::Int)
+
+Return the `M` ranges of (lower, upper) bounds which span a length of N = `q``M` + `r`,
+starting from initial point `start`.
+"""
+function equalpairs(l::Int, q::Int, r::Int, M::Int)
+    ps = Vector{Tuple{Int, Int}}(undef, M)
+    qp1 = q + 1
+    u = (r > 0 ? qp1 : q) + l - 1
+    ps[1] = (l, u)
+    m = 2
+    while m ≤ M
+        if m ≤ r
+            u += qp1
+            l = u - q
+            ps[m] = (l, u)
+        elseif r < m ≤ M
+            u += q
+            l = u - q + 1
+            ps[m] = (l, u)
+        end
+        m += 1
+    end
+    return ps
+end
+
+"""
+    equalpairs(ur::UnitRange{Int}, chunksize)
+
+Divide the range `ur` into `M` segments, where the remainder (if it exists)
+is equally distributed across the parts.
+"""
+function equalpairs(ur::UnitRange{Int}, M::Int)
+    (; start, stop) = ur
+    N = stop - start + 1
+    if M ≥ N
+        return equalpairs(start, 1, 0, N)
+    else
+        q, r = divrem(N, M)
+        return equalpairs(start, q, r, M)
+    end
 end
 
 """
@@ -198,7 +246,7 @@ function equalranges(q::Int, r::Int, M::Int)
             l = u - q + 1
             ps[m] = l:u
         end
-        m +=1
+        m += 1
     end
     return ps
 end
@@ -210,8 +258,58 @@ Return the `M` ranges of (lower, upper) bounds which divide a length `N` into `M
 where the remainder (if it is nonzero) is equally distributed across the parts.
 """
 function equalranges(N::Int, M::Int)
-    q, r = divrem(N, M)
-    equalranges(q, r, M)
+    if M ≥ N
+        return equalranges(1, 0, N)
+        # return equalranges(1, 1, 0, N)
+    else
+        q, r = divrem(N, M)
+        return equalranges(q, r, M)
+        # return equalranges(1, q, r, M)
+    end
+end
+
+"""
+    equalranges(start::Int, q::Int, r::Int, M::Int)
+
+Return the `M` ranges of (lower, upper) bounds which span a length of N = `q``M` + `r`,
+starting from initial point `start`.
+"""
+function equalranges(l::Int, q::Int, r::Int, M::Int)
+    ps = Vector{UnitRange{Int}}(undef, M)
+    qp1 = q + 1
+    u = (r > 0 ? qp1 : q) + l - 1
+    ps[1] = l:u
+    m = 2
+    while m ≤ M
+        if m ≤ r
+            u += qp1
+            l = u - q
+            ps[m] = l:u
+        elseif r < m ≤ M
+            u += q
+            l = u - q + 1
+            ps[m] = l:u
+        end
+        m += 1
+    end
+    return ps
+end
+
+"""
+    equalranges(ur::UnitRange{Int}, chunksize)
+
+Divide the range `ur` into `M` segments, where the remainder (if it exists)
+is equally distributed across the parts.
+"""
+function equalranges(ur::UnitRange{Int}, M::Int)
+    (; start, stop) = ur
+    N = stop - start + 1
+    if M ≥ N
+        return equalranges(start, 1, 0, N)
+    else
+        q, r = divrem(N, M)
+        return equalranges(start, q, r, M)
+    end
 end
 ############################################################################################
 # # Clearly less efficient.

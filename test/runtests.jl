@@ -17,10 +17,23 @@ using Test
         rr = equalranges(N, M)
         @test sum(length, rr) == N
         #
-        start, stop = 5:16
-        ur = start:stop
+        a, b = 5:16
+        ur = a:b
         rs = equalranges(ur, 4)
         @test sum(length, rs) == length(ur)
     end
-
+    @testset "splitranges" begin
+        a, b = 1, 16
+        ur = a:b
+        rs = splitranges(ur, 3)
+        @test sum(length, rs) == length(ur)
+    end
+    @testset "binaryranges" begin
+        a, b = 7, 16
+        ur = a:b
+        rs = binaryranges(ur, 3)
+        @test sum(length, rs) == length(ur)
+        @test sum(length, binaryranges(1:2^10, 2^5 - 1)) == 2^10
+    end
 end
+

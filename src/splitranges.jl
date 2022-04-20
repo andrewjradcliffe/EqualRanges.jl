@@ -13,7 +13,7 @@ Divide the range `start:stop` into segments, each of size `chunksize`.
 The last segment will contain the remainder, `(start - stop + 1) % chunksize`,
 if it exists.
 """
-function splitranges(start::Integer, stop::Integer, Lc::Integer)
+function splitranges(start::Int, stop::Int, Lc::Int)
     L = stop - start + 1
     n, r = divrem(L, Lc)
     ranges = Vector{UnitRange{Int}}(undef, r == 0 ? n : n + 1)
@@ -39,12 +39,4 @@ end
 
 Divide the range `ur` into segments, each of size `chunksize`.
 """
-splitranges(ur::UnitRange{Int}, Lc::Integer) = splitranges(ur.start, ur.stop, Lc)
-
-@benchmark splitranges(1, 24, 2)
-@benchmark splitranges4(1, 24, 2)
-@benchmark splitranges5(1, 24, 2)
-ur = 1:16
-@benchmark splitranges($ur, 4)
-@benchmark splitranges2($ur, 4)
-@code_typed splitranges2(ur, 4)
+splitranges(ur::UnitRange{Int}, Lc::Int) = splitranges(ur.start, ur.stop, Lc)

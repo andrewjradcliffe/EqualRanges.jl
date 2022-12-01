@@ -12,7 +12,7 @@ function binaryranges!(ranges::Vector{UnitRange{Int}}, start::Int, stop::Int, Lc
     else
         # If negative values, the bitshift will not work properly.
         # H = (start + stop) >> 1
-        H = (start + stop) ÷ 2
+        H = (stop - start) ÷ 2
         binaryranges!(ranges, start, H, Lc)
         binaryranges!(ranges, H + 1, stop, Lc)
     end
